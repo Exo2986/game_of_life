@@ -1,36 +1,28 @@
-#[derive(Clone)]
+
 pub enum Direction {
     X, Y,
 }
-
+#[derive(Clone)]
 pub struct Cell {
-    pub x: u32,
-    pub y: u32,
-    pub size: u32,
+    pub x: i32,
+    pub y: i32,
+    pub size: i32,
     pub state: bool,
     pub nextState: bool,
 }
 
 impl Cell {
-    pub fn new(x: u32, y: u32, size: u32) -> Cell {
+    pub fn new(x: i32, y: i32, size: i32) -> Cell {
         Cell {
             x,
             y,
             size,
-            state: if y == 2 {
-                true
-            } else {
-                false
-            },
-            nextState: if y == 2 {
-                true
-            } else {
-                false
-            },
+            state: false,
+            nextState: false,
         }
     }
 
-    pub fn sub_one(& self, direction: Direction) -> u32 {
+    pub fn sub_one(& self, direction: Direction) -> i32 {
         match direction {
             Direction::X => {
                 if self.x-1 < 0 {
@@ -49,7 +41,7 @@ impl Cell {
         }
     }
 
-    pub fn add_one(& self, direction: Direction) -> u32 {
+    pub fn add_one(& self, direction: Direction) -> i32 {
         match direction {
             Direction::X => {
                 if self.x+1 >= self.size {

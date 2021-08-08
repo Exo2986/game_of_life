@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 
 use crate::automata::cell::{Cell, Direction};
+use piston::input::keyboard::Key::Hash;
 
 pub struct Grid{
-    pub cells: &'static mut HashMap<[u32; 2], Cell>,
-    pub size: u32,
+    pub cells: HashMap<[i32; 2], Cell>,
+    pub size: i32,
 }
 
 impl Grid {
@@ -17,25 +18,24 @@ impl Grid {
         }
     }
 
-    pub fn get_neighbors(&mut self, cell: &Cell) -> Vec<&Cell> {
+    pub fn get_neighbors(& self, cell: &Cell) -> Vec<&Cell> {
         let mut neighbors = Vec::new();
         let cells = &self.cells;
-        neighbors[0] = cells.get(&[cell.sub_one(Direction::X), cell.sub_one(Direction::Y)]).expect("Missing neighbor!");
-        neighbors[1] = cells.get(&[cell.sub_one(Direction::X), cell.y]).expect("Missing neighbor!");
-        neighbors[2] = cells.get(&[cell.sub_one(Direction::X), cell.add_one(Direction::Y)]).expect("Missing neighbor!");
-        neighbors[3] = cells.get(&[cell.add_one(Direction::X), cell.sub_one(Direction::Y)]).expect("Missing neighbor!");
-        neighbors[4] = cells.get(&[cell.add_one(Direction::X), cell.y]).expect("Missing neighbor!");
-        neighbors[5] = cells.get(&[cell.add_one(Direction::X), cell.add_one(Direction::Y)]).expect("Missing neighbor!");
-        neighbors[6] = cells.get(&[cell.x, cell.add_one(Direction::Y)]).expect("Missing neighbor!");
-        neighbors[7] = cells.get(&[cell.x, cell.sub_one(Direction::Y)]).expect("Missing neighbor!");
+        neighbors.push(cells.get(&[cell.sub_one(Direction::X), cell.sub_one(Direction::Y)]).expect("Missing neighbor!"));
+        neighbors.push(cells.get(&[cell.sub_one(Direction::X), cell.y]).expect("Missing neighbor!"));
+        neighbors.push(cells.get(&[cell.sub_one(Direction::X), cell.add_one(Direction::Y)]).expect("Missing neighbor!"));
+        neighbors.push(cells.get(&[cell.add_one(Direction::X), cell.sub_one(Direction::Y)]).expect("Missing neighbor!"));
+        neighbors.push(cells.get(&[cell.add_one(Direction::X), cell.y]).expect("Missing neighbor!"));
+        neighbors.push(cells.get(&[cell.add_one(Direction::X), cell.add_one(Direction::Y)]).expect("Missing neighbor!"));
+        neighbors.push(cells.get(&[cell.x, cell.add_one(Direction::Y)]).expect("Missing neighbor!"));
+        neighbors.push(cells.get(&[cell.x, cell.sub_one(Direction::Y)]).expect("Missing neighbor!"));
 
         neighbors
     }
 
-    pub fn new(size: u32) -> Grid {
-        let mut cells= &mut HashMap::new();
+    pub fn new(size: i32) -> Grid {
         let mut grid = Grid {
-            cells,
+            cells: HashMap::new(),
             size,
         };
         grid.initialize_cells();
